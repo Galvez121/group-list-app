@@ -59,12 +59,12 @@ function FormAddfriend() {
         />
 
         <label for="friendDescription">Description:</label>
-        <textarea
+        <input
           id="friendDescription"
           name="friendDescription"
           placeholder="Enter friend's description"
           onChange={(e) => setFriendDescription(e.target.value)}
-          required></textarea>
+          required></input>
 
         <button type="submit" onClick={() => setShowListFriends(true)}>
           Add Friend
