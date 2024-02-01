@@ -1,14 +1,14 @@
 import { useState } from "react";
 import "./index.css";
 
-const friendTest = [
-  {
-    name: "Juan",
-    age: 20,
-    birhday: "1/26/2024",
-    key: 0,
-  },
-];
+// const friendTest = [
+//   {
+//     name: "Juan",
+//     age: 20,
+//     birhday: "1/26/2024",
+//     key: 0,
+//   },
+// ];
 
 export default function App() {
   return (
@@ -21,6 +21,9 @@ export default function App() {
 function FormAddfriend() {
   const [friendData, setFriendData] = useState([]);
   const [friendName, setFriendName] = useState("");
+  const [friendDescription, setFriendDescription] = useState("");
+
+  const [showlistFriends, setShowListFriends] = useState(false);
 
   function handleFriendList(friendList) {
     setFriendData((friend) => [...friend, friendList]);
@@ -29,8 +32,14 @@ function FormAddfriend() {
   function hanndleSubmit(e) {
     e.preventDefault();
 
+    if (!friendName) return;
+
     // It will create a new object
-    const newFriend = { friendName, id: Date.now() };
+    const newFriend = {
+      id: Date.now(),
+      name: friendName,
+      description: friendDescription,
+    };
 
     handleFriendList(newFriend);
   }
@@ -53,11 +62,15 @@ function FormAddfriend() {
         <textarea
           id="friendDescription"
           name="friendDescription"
-          placeholder="Enter friend's description"></textarea>
+          placeholder="Enter friend's description"
+          onChange={(e) => setFriendDescription(e.target.value)}
+          required></textarea>
 
-        <button type="submit">Add Friend</button>
+        <button type="submit" onClick={() => setShowListFriends(true)}>
+          Add Friend
+        </button>
       </form>
-      <Friend friendData={friendData} />
+      {showlistFriends ? <Friend friendData={friendData} /> : <div></div>}
     </>
   );
 }
@@ -78,5 +91,10 @@ function Friend({ friendData }) {
 }
 
 function FriendList({ friendItem }) {
-  return <li>{friendItem.friendName}</li>;
+  return (
+    <div className="list_container">
+      <li>{friendItem.name}</li>
+      <p>{friendItem.description}</p>
+    </div>
+  );
 }
